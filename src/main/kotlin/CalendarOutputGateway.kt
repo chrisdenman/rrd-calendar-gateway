@@ -14,6 +14,19 @@ import java.time.Instant
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.io.path.ExperimentalPathApi
 
+/**
+ * Construct a new calendar output gateway.
+ *
+ * @param calendarName the calendar name of which to, add events
+ * @param calendarSummaryTemplate the calendar event's summary template
+ * @param maximumNotifyDurationSeconds the maximum number of Seconds that we will wait whilst waiting for iCal to finish
+ *
+ * The `calendarSummaryTemplate` permits the replacement of a single token of the value '<<serviceType>>'; it is
+ * replaced with: 'Refuse' when the service type is `ServiceType.REFUSE` and, 'Recycling', when the service is of
+ * type `ServiceType.RECYCLING`.
+ *
+ * @constructor
+ */
 @ExperimentalPathApi
 fun createCalendarOutputGateway(
     calendarName: CalendarName,
@@ -22,9 +35,20 @@ fun createCalendarOutputGateway(
 ): UpcomingOutputGateway =
     CalendarOutputGateway(calendarName, calendarSummaryTemplate, maximumNotifyDurationSeconds)
 
+/**
+ * @param text the calendar event's summary template
+ */
 data class CalendarSummaryTemplate(val text: String)
+
+/**
+ * @param text the calendar name of which to, add events
+ */
 data class CalendarName(val text: String)
-data class MaximumNotifyDurationSeconds(val seconds: Long)
+
+/**
+ * @param magnitude the maximum number of Seconds that we will wait whilst waiting for iCal to finish
+ */
+data class MaximumNotifyDurationSeconds(val magnitude: Long)
 
 @ExperimentalPathApi
 private class CalendarOutputGateway(
@@ -34,7 +58,7 @@ private class CalendarOutputGateway(
 ) : UpcomingOutputGateway {
 
     override fun notify(serviceDetails: ServiceDetails): Either<Throwable, Unit> =
-        createDuration(maximumNotifyDurationSeconds.seconds, SECONDS).flatMap { maximumDuration ->
+        createDuration(maximumNotifyDurationSeconds.magnitude, SECONDS).flatMap { maximumDuration ->
             EventDate(Instant.now().toEpochMilli()).let { eventDate ->
                 createKalendarApi(maximumDuration).createEvent(
                     uk.co.ceilingcat.kalendarapi.CalendarName(calendarName.text),
