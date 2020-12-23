@@ -1,11 +1,8 @@
 # [Refuse Recycling Dates - Calendar Output Gateway](https://github.com/chrisdenman/rrd-calendar-gateway)
 
-Calendar Output Gateway
+For usage information, please see the dokka [docs](https://chrisdenman.github.io/rrd-calendar-gateway/dokka/html/rrd-calendar-gateway/index.html).
 
-For usage information, please see the [docs](docs/dokka/html/rrd-calendar-gateway/index.html).
-
-
-## Implementation Details
+An output-gateway implementation that adds iCal events, to notify of an upcoming service.
 
 
 ## System Requirements
@@ -13,15 +10,6 @@ For usage information, please see the [docs](docs/dokka/html/rrd-calendar-gatewa
 -   JDK 11
 -   OSX 
 -   @ExperimentalPathApi
-
-
-## Todo
-
-
-## References
-
-
-## Releases
 
 
 ## Licensing
